@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/google_registration_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register With Google"/>
+
+    <Button
+        android:id="@+id/facebook_registration_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register with Facebook"/>
+
+    <EditText
+        android:id="@+id/email_registration_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="Email"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <Button
+        android:id="@+id/email_registration_continue_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="Continue"/>
+
+</LinearLayout>
