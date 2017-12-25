@@ -1,11 +1,13 @@
 package android.nni.com.dancemeup.activities;
 
+import android.content.Intent;
 import android.nni.com.dancemeup.R;
 import android.nni.com.dancemeup.entities.Profile;
 import android.nni.com.dancemeup.entities.User;
 import android.nni.com.dancemeup.fragments.registration.AboutMeFragment;
 import android.nni.com.dancemeup.fragments.registration.EmailRegistrationFragment;
 import android.nni.com.dancemeup.fragments.registration.PasswordFragment;
+import android.nni.com.dancemeup.service.ProfileService;
 import android.nni.com.dancemeup.service.UserService;
 import android.os.Bundle;
 
@@ -13,7 +15,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 /**
@@ -21,7 +22,9 @@ import android.util.Log;
  */
 
 public class RegistrationActivity extends AppCompatActivity
-        implements EmailRegistrationFragment.OnContinueButtonClicked, PasswordFragment.OnCreateAccountButtonClicked {
+        implements EmailRegistrationFragment.OnContinueButtonClicked,
+        PasswordFragment.OnCreateAccountButtonClicked,
+        AboutMeFragment.OnDoneButtonClicked{
 
     private static final String TAG = "Registration Activity";
 
@@ -29,6 +32,7 @@ public class RegistrationActivity extends AppCompatActivity
     private Profile newProfile;
 
     private UserService userService;
+    private ProfileService profileService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class RegistrationActivity extends AppCompatActivity
         newProfile = new Profile();
 
         userService = new UserService();
+        profileService = new ProfileService();
 
         if (findViewById(R.id.fragment_container) != null) {
 
@@ -77,7 +82,6 @@ public class RegistrationActivity extends AppCompatActivity
         transaction.addToBackStack(null);
 
         transaction.commit();
-
     }
 
     @Override
@@ -98,12 +102,24 @@ public class RegistrationActivity extends AppCompatActivity
 
         boolean success = userService.createUser(newUser);
 
-        if(success){
+        if(!success){
             AboutMeFragment fragment = new AboutMeFragment();
             proceed(fragment, 3);
         }
+    }
 
+    @Override
+    public void onDoneButtonPressed(String dances, String gender) {
+        newProfile.setDances(dances);
+        newProfile.setGender(gender);
 
+        Log.i(TAG, newProfile.toString());
 
+        boolean success = profileService.createProfile(newProfile);
+
+        if(!success){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }

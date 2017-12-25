@@ -7,26 +7,49 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 /**
  * Created by magma on 12/23/2017.
  */
 
-public class PasswordFragment extends Fragment {
+public class PasswordFragment extends Fragment implements View.OnClickListener {
     public static String ARG_PASSWORD = "password";
 
+    private static final String TAG = "Password Registration Fragment";
+
     OnCreateAccountButtonClicked mCallback;
+
+    private EditText passwordField;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_password_registration, container, false);
+        View v = inflater.inflate(R.layout.fragment_registration_password, container, false);
+
+        Button createAccountButton = v.findViewById(R.id.password_registration_continue_button);
+        passwordField = v.findViewById(R.id.password_registration_input);
+
+        createAccountButton.setOnClickListener(this);
+        return v;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.password_registration_continue_button) {
+            onCreateAccountButtonClicked();
+        }
+    }
+
+    private void onCreateAccountButtonClicked() {
+        String password = passwordField.getText().toString();
+        mCallback.onCreateAccountButtonPressed(password);
     }
 
     // Container Activity must implement this interface
     public interface OnCreateAccountButtonClicked {
-        public void onCreateAccountButtonPressed(String password);
+        void onCreateAccountButtonPressed(String password);
     }
 
     @Override
@@ -36,10 +59,10 @@ public class PasswordFragment extends Fragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
-            mCallback = (PasswordFragment.OnCreateAccountButtonClicked) context;
+            mCallback = (OnCreateAccountButtonClicked) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement OnCreateAccountButtonClicked");
         }
     }
 }

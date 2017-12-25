@@ -5,33 +5,53 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/aboutme_registration_dances_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create a new account with Insert Email"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="100dp"/>
-
-    <EditText
-        android:id="@+id/email_registration_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="Password"
+        android:text="What type of dances do you like?"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
+    <EditText
+        android:id="@+id/aboutme_registration_dances_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dances"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"/>
+
+    <TextView
+        android:id="@+id/aboutme_registration_gender_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gender"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <EditText
+        android:id="@+id/aboutme_registration_gender_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Gender"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"/>
+
     <Button
-        android:id="@+id/email_registration_continue_button"
+        android:id="@+id/aboutme_registration_done_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="Create Account"/>
+        android:text="Done"/>
+
+
 
 </LinearLayout>

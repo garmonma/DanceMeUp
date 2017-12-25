@@ -1,11 +1,9 @@
 package android.nni.com.dancemeup.fragments.registration;
 
-import android.app.Activity;
 import android.content.Context;
 import android.nni.com.dancemeup.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,7 @@ import android.widget.EditText;
 public class EmailRegistrationFragment extends Fragment implements View.OnClickListener {
     public static String ARG_POSITION = "EmailRegistration_Fragment";
 
-    private static final String TAG = "Registration Activity";
+    private static final String TAG = "Email Registration Fragment";
 
     OnContinueButtonClicked mCallback;
 
@@ -28,11 +26,10 @@ public class EmailRegistrationFragment extends Fragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_registration_email, container, false);
 
-        View v = inflater.inflate(R.layout.fragment_email_registration, container, false);
-
-        Button continueButton = (Button)v.findViewById(R.id.email_registration_continue_button);
-        emailText = (EditText)v.findViewById(R.id.email_registration_input);
+        Button continueButton = v.findViewById(R.id.email_registration_continue_button);
+        emailText = v.findViewById(R.id.email_registration_input);
 
         continueButton.setOnClickListener(this);
         return v;
@@ -60,7 +57,7 @@ public class EmailRegistrationFragment extends Fragment implements View.OnClickL
             mCallback = (OnContinueButtonClicked) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement OnContinueButtonClicked");
         }
     }
 
