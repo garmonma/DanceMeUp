@@ -12,6 +12,7 @@ import android.nni.com.dancemeup.service.UserService;
 import android.os.Bundle;
 
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -42,8 +43,8 @@ public class RegistrationActivity extends AppCompatActivity
         newUser =  new User();
         newProfile = new Profile();
 
-        userService = new UserService();
-        profileService = new ProfileService();
+        userService = new UserService(this);
+        profileService = new ProfileService(this);
 
         if (findViewById(R.id.fragment_container) != null) {
 
@@ -117,9 +118,14 @@ public class RegistrationActivity extends AppCompatActivity
 
         boolean success = profileService.createProfile(newProfile);
 
-        if(!success){
+        if(success){
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

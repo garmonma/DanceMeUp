@@ -57,21 +57,11 @@ public class LocationUtils {
             }
         };
 
-        Log.i(TAG, "Access Fine Location Permission : " + checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION));
-
-        Log.i(TAG, "Access Coarse Location Permission : " + checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION));
-
         if (checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            //Log.i(TAG, "location permission denied");
-            requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1 );
+
+            requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, 1 );
         }
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
