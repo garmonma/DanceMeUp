@@ -1,13 +1,17 @@
 package android.nni.com.dancemeup.entities;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 
 /**
  * Created by magma on 12/22/2017.
  */
 
-public class User {
+public class User extends GsonEntity implements Serializable{
 
     private String username;
 
@@ -25,17 +29,6 @@ public class User {
         this.password = password;
     }
 
-    public JSONObject toJSON(){
-        JSONObject object = new JSONObject();
-        try {
-            object.put("username", this.username);
-            object.put("password", this.password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return object;
-    }
 
     public User(){
 

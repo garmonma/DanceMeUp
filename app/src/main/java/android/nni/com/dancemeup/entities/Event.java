@@ -1,5 +1,7 @@
 package android.nni.com.dancemeup.entities;
 
+import com.google.gson.Gson;
+
 import org.json.JSONObject;
 
 import java.util.Date;
@@ -8,7 +10,7 @@ import java.util.Date;
  * Created by magma on 12/24/2017.
  */
 
-public class Event {
+public class Event extends GsonEntity {
 
     private String name;
 

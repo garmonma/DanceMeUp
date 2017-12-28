@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.nni.com.dancemeup.entities.GeoLocation;
 import android.nni.com.dancemeup.entities.Profile;
 import android.util.Log;
 
@@ -14,7 +16,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import static android.support.v4.app.ActivityCompat.requestPermissions;
@@ -30,19 +36,23 @@ public class ProfileService {
 
     private RequestQueue queue;
 
+    private Gson gson;
+
     public ProfileService(Activity context){
         queue = Volley.newRequestQueue(context);
+        gson = new Gson();
     }
 
-    public boolean createProfile(Profile profile){
+    public void createProfile(final Profile profile, final ServerCallback callback){
         String url ="http://192.168.0.7:8080/api/profile";
 
         // Request a string response from the provided URL.
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, url, profile.toJSON(),
+        JsonObjectRequest createProfile = new JsonObjectRequest(Request.Method.POST, url, profile.toJSON(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.i(TAG, "Response : " + response);
+                        callback.onSuccess(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -53,8 +63,31 @@ public class ProfileService {
                 });
 
         // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        queue.add(createProfile);
 
-        return true;
+    }
+
+    public void updateProfile(final Profile profile, final ServerCallback callback){
+        String url ="http://192.168.0.7:8080/api/profile";
+
+        Log.i(TAG, "Pre Update Profile" + profile.toString());
+
+        // Request a string response from the provided URL.
+        JsonObjectRequest updateProfile = new JsonObjectRequest(Request.Method.PUT, url, profile.toJSON(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.onSuccess(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i(TAG, "Error : " + error);
+                    }
+                });
+
+        // Add the request to the RequestQueue.
+        queue.add(updateProfile);
     }
 }

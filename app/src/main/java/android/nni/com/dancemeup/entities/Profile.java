@@ -1,8 +1,13 @@
 package android.nni.com.dancemeup.entities;
 
+import android.webkit.GeolocationPermissions;
+
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,9 +15,9 @@ import java.util.Set;
  * Created by magma on 12/22/2017.
  */
 
-public class Profile {
+public class Profile extends GsonEntity implements Serializable{
 
-    private Long Id;
+    private Long id;
 
     private String nickname;
 
@@ -22,7 +27,7 @@ public class Profile {
 
     private String lastName;
 
-    private String location;
+    private GeoLocation location;
 
     private String aboutMe;
 
@@ -37,7 +42,7 @@ public class Profile {
     private Set<Event> events = new HashSet<Event>();
 
     public Long getId(){
-        return Id;
+        return id;
     }
 
     public String getEmail(){
@@ -64,6 +69,9 @@ public class Profile {
         return this.gender;
     }
 
+    public GeoLocation getLocation(){
+        return this.location;
+    }
 
     public String getPhoto(){
         return this.photo;
@@ -74,7 +82,7 @@ public class Profile {
     }
 
     public void setId(Long id) {
-        Id = id;
+        id = id;
     }
 
     public void setNickname(String nickname) {
@@ -93,7 +101,7 @@ public class Profile {
         this.lastName = lastName;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(GeoLocation location) {
         this.location = location;
     }
 
@@ -121,23 +129,7 @@ public class Profile {
         this.events = events;
     }
 
-    public JSONObject toJSON(){
-        JSONObject object = new JSONObject();
-        try {
-            object.put("email", this.email);
-            object.put("dances", this.dances);
-            object.put("gender", this.gender);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        return object;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 
     public Profile(){
 

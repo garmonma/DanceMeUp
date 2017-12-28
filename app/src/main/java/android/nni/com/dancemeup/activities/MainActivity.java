@@ -1,9 +1,15 @@
 package android.nni.com.dancemeup.activities;
 
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.nni.com.dancemeup.PagerAdapter;
 import android.nni.com.dancemeup.R;
+import android.nni.com.dancemeup.entities.GeoLocation;
+import android.nni.com.dancemeup.entities.Profile;
+import android.nni.com.dancemeup.service.ProfileService;
+import android.nni.com.dancemeup.service.ServerCallback;
+import android.nni.com.dancemeup.service.UserService;
 import android.nni.com.dancemeup.utils.LocationUtils;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -26,15 +32,20 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private LocationUtils locationUtils;
     private LocationManager locationManager;
+    private Profile profile;
+    private UserService userService;
+    private ProfileService profileService;
 
     private static final String TAG = "Main Activity";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +75,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         tabLayout.addTab(tabLayout.newTab().setText("Events"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final PagerAdapter adapter = new PagerAdapter
+                (getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -81,12 +98,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        userService = new UserService(this);
+        profileService = new ProfileService(this);
+
+        Intent i = this.getIntent();
+        profile = (Profile)i.getSerializableExtra("profile");
 
         locationUtils = new LocationUtils();
-
         locationManager = locationUtils.getLocationManager(this);
         locationUtils.initLocationListener(locationManager, this);
 
+        updateProfileLocation();
+    }
+
+    private void updateProfileLocation(){
+        GeoLocation profileLocation = new GeoLocation();
+        Location location = locationUtils.getLastKnownLocation(locationManager, this);
+        profileLocation.setLatitude(location.getLatitude());
+        profileLocation.setLongitude(location.getLongitude());
+        profile.setLocation(profileLocation);
+
+        if(profile.getId() == null){
+            // get profile here by getting profile from server
+        }
+
+        profileService.updateProfile(profile, new ServerCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                Gson gson = new Gson();
+                profile = gson.fromJson(result.toString(), Profile.class);
+            }
+        });
     }
 
     @Override
@@ -118,10 +160,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Location location = locationUtils.getLastKnownLocation(locationManager, this);
-        LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng myLocation = new LatLng(profile.getLocation().getLatitude(), profile.getLocation().getLongitude());
         googleMap.addMarker(new MarkerOptions().position(myLocation)
                 .title("My Location"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, googleMap.getMaxZoomLevel()));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
     }
 }

@@ -8,6 +8,7 @@ import android.nni.com.dancemeup.fragments.registration.AboutMeFragment;
 import android.nni.com.dancemeup.fragments.registration.EmailRegistrationFragment;
 import android.nni.com.dancemeup.fragments.registration.PasswordFragment;
 import android.nni.com.dancemeup.service.ProfileService;
+import android.nni.com.dancemeup.service.ServerCallback;
 import android.nni.com.dancemeup.service.UserService;
 import android.os.Bundle;
 
@@ -17,6 +18,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 /**
  * Created by magma on 12/22/2017.
@@ -103,7 +108,7 @@ public class RegistrationActivity extends AppCompatActivity
 
         boolean success = userService.createUser(newUser);
 
-        if(!success){
+        if(success){
             AboutMeFragment fragment = new AboutMeFragment();
             proceed(fragment, 3);
         }
@@ -116,12 +121,17 @@ public class RegistrationActivity extends AppCompatActivity
 
         Log.i(TAG, newProfile.toString());
 
-        boolean success = profileService.createProfile(newProfile);
-
-        if(success){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
+        final Intent intent = new Intent(this, MainActivity.class);
+        profileService.createProfile(newProfile, new ServerCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                Gson gson = new Gson();
+                Profile profile = gson.fromJson(result.toString(), Profile.class);
+                Log.i(TAG, profile.toString());
+                intent.putExtra("profile", profile);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
