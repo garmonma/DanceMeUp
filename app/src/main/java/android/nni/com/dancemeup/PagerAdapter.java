@@ -16,13 +16,12 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
         switch (position) {
             case 0:
-                ConnectFragment tab1 = new ConnectFragment();
+                EventFragment tab1 = new EventFragment();
                 return tab1;
             case 1:
-                EventFragment tab2 = new EventFragment();
+                ConnectFragment tab2 = new ConnectFragment();
                 return tab2;
             default:
                 return null;

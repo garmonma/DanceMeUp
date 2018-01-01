@@ -70,14 +70,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
 
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.main_tab_layout);
+        TabLayout tabLayout = (TabLayout)findViewById(R.id.movingTabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Connect"));
         tabLayout.addTab(tabLayout.newTab().setText("Events"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
+
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 

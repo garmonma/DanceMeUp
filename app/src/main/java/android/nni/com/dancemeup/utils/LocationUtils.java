@@ -86,6 +86,11 @@ public class LocationUtils {
             Log.i(TAG, "location permission denied");
             return null;
         }
-        return manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        Location location = manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        if(location == null){
+            location = manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+        return location;
     }
 }
