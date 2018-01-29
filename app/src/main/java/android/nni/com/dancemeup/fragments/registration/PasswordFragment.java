@@ -26,7 +26,7 @@ public class PasswordFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_registration_password, container, false);
+        View v = inflater.inflate(R.layout.registration_fragment_password, container, false);
 
         Button createAccountButton = v.findViewById(R.id.password_registration_continue_button);
         passwordField = v.findViewById(R.id.password_registration_input);

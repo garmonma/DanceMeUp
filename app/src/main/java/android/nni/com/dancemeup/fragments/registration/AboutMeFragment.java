@@ -26,7 +26,7 @@ public class AboutMeFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_registration_aboutme, container, false);
+        View v = inflater.inflate(R.layout.registration_fragment_aboutme, container, false);
 
         Button doneButton = v.findViewById(R.id.aboutme_registration_done_button);
         dancesField = v.findViewById(R.id.aboutme_registration_dances_input);

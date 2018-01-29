@@ -26,7 +26,7 @@ public class EmailRegistrationFragment extends Fragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_registration_email, container, false);
+        View v = inflater.inflate(R.layout.registration_fragment_email, container, false);
 
         Button continueButton = v.findViewById(R.id.email_registration_continue_button);
         emailText = v.findViewById(R.id.email_registration_input);

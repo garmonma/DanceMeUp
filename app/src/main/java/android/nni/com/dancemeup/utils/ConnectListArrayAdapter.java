@@ -20,7 +20,7 @@ public class ConnectListArrayAdapter extends ArrayAdapter<String> {
     private final String[] values;
 
     public ConnectListArrayAdapter(@NonNull Context context, String[] values) {
-        super(context, R.layout.fragment_main_connect, values);
+        super(context, R.layout.main_fragment_connect, values);
         this.context = context;
         this.values = values;
     }

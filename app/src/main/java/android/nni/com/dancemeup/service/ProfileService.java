@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.nni.com.dancemeup.beans.GeoLocationRadiusBean;
 import android.nni.com.dancemeup.entities.GeoLocation;
 import android.nni.com.dancemeup.entities.Profile;
 import android.util.Log;
@@ -74,6 +75,30 @@ public class ProfileService {
 
         // Request a string response from the provided URL.
         JsonObjectRequest updateProfile = new JsonObjectRequest(Request.Method.PUT, url, profile.toJSON(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.onSuccess(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i(TAG, "Error : " + error);
+                    }
+                });
+
+        // Add the request to the RequestQueue.
+        queue.add(updateProfile);
+    }
+
+    public void getProfiles(final GeoLocationRadiusBean data, final ServerCallback callback){
+        String url ="http://192.168.0.7:8080/api/getProfiles";
+
+        Log.i(TAG, "Get profiles in radius : " + data.getRadius());
+
+        // Request a string response from the provided URL.
+        JsonObjectRequest updateProfile = new JsonObjectRequest(Request.Method.PUT, url, data.toJSON(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
